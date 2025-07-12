@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+    <title>Gig Guide | {% block title %}{% endblock title %} </title>
+</head>
+<body class="container">
+    <nav>
+        <ul>
+            <li>
+                <a href="{% url "home" %}">
+                    <h1>Gig Guide</h1>
+                </a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a href="">Login</a>
+            </li>
+            <li>
+                <a href="">Sign Up</a>
+            </li>
+        </ul>
+    </nav>
+    {% block content %}
+    {% endblock content %}
+</body>
+</html>
