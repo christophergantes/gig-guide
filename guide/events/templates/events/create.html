@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Create Event
+{% endblock title %}
+
+{% block content %}
+<h1>Create Event</h1>
+
+<form action="{% url "events:create" %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button>Create</button>
+</form>
+{% endblock content %}

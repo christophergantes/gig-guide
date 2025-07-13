@@ -15,10 +15,11 @@
                     <h1>Gig Guide</h1>
                 </a>
             </li>
+            <li><a href="{% url "events:list" %}">Events</a></li>
         </ul>
         {% if user.is_authenticated %}
         <ul>
-            <li><a href="">Create Event</a></li>
+            <li><a href="{% url "events:create" %}">Create Event</a></li>
             <li><form action="{% url "users:logout" %}" method="post">{% csrf_token %}<button>Logout</button></form></li>
         </ul>
         {% else %}
