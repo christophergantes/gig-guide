@@ -9,6 +9,7 @@ class Event(models.Model):
     start_time = models.TimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    image = models.ImageField(upload_to="event_images", blank=True)
 
     def __str__(self):
         return f"{self.title} by {self.author.username} (Created at: {self.created_at})"

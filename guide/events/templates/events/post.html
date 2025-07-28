@@ -6,4 +6,9 @@ Post
 
 {% block content %}
 <h1>Post</h1>
+<h2>{{event.title}}</h2>
+<p>{{event.description}}</p>
+{% if event.image %}
+<img src="{{event.image.url}}" alt="event image">
+{% endif %}
 {% endblock content %}

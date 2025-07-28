@@ -12,7 +12,7 @@ def list_view(request):
 @login_required(login_url="users:login")
 def create_view(request):
     if request.method == "POST":
-        form = EventForm(request.POST)
+        form = EventForm(request.POST, request.FILES)
         if form.is_valid():
             event = form.save(commit=False)
             event.author = request.user
@@ -23,3 +23,8 @@ def create_view(request):
         form = EventForm()
 
     return render(request, "events/create.html", {"form": form})
+
+
+def post_view(request, post_id):
+    event = Event.objects.get(pk=post_id)
+    return render(request, "events/post.html", {"event": event})
