@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Post
+Post | {{event.title}}
 {% endblock title %}
 
 {% block content %}
@@ -10,5 +10,8 @@ Post
 <p>{{event.description}}</p>
 {% if event.image %}
 <img src="{{event.image.url}}" alt="event image">
+{% endif %}
+{% if event.venue %}
+<address>{{event.venue}}</address>
 {% endif %}
 {% endblock content %}
