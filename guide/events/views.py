@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import EventPost
+from django.shortcuts import redirect, render
+
 from .forms import EventForm
+from .models import EventPost
 
 
 def list_view(request):
@@ -17,13 +18,11 @@ def create_view(request):
             event = form.save(commit=False)
             event.author = request.user
             event.save()
-            # change to redirect to post page
-            return redirect("events:list")
-    else:
-        form = EventForm()
-    return render(request, "events/create.html", {"form": form})
+            return redirect("events:detail", post_id=event.id)
+    return render(request, "events/create.html")
 
 
-def post_view(request, post_id):
+def event_post_view(request, post_id):
     event = EventPost.objects.get(pk=post_id)
-    return render(request, "events/post.html", {"event": event})
+    comments = event.comments.filter(parent__isnull=True)
+    return render(request, "events/detail.html", {"event": event, "comments": comments})

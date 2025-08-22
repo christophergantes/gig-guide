@@ -27,11 +27,28 @@ Event | {{event.title}}
 <img src="{{event.image.url}}" alt="event image">
 {% endif %}
 
-{% comment %} {% if event.venue %}
-<address>{{event.venue}}</address>
+<div>
+    <span>Address: <address>{{event.get_address}}</address></span>
+</div>
+
+<h2>Comments</h2>
+
+{% if user.is_authenticated %}
+<form action="{% url "comments:post" post_id=event.id %}" method="post">
+    {% csrf_token %}
+    <label for="">Leave a comment</label>
+    <input type="text" name="content">
+    <button>Send</button>
+</form>
 {% endif %}
 
-<div>
+<ul>
+    {% for comment in comments %}
+    {% include "comments/comment.html" %}
+    {% endfor %}
+</ul>
+
+{% comment %} <div>
     <div id="map" style="height: 400px;"></div>
     <script>
         var map = L.map('map').setView([33.968168850305, -83.386537415586], 18);
@@ -41,8 +58,4 @@ Event | {{event.title}}
         }).addTo(map);
     </script>
 </div> {% endcomment %}
-
-<div>
-    <span>Address: <address>{{event.get_address}}</address></span>
-</div>
 {% endblock content %}

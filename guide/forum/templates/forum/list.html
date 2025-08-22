@@ -10,7 +10,7 @@ Forum
 <ul>
     {% for post in forum_posts %}
     <li>
-        <a href="{% url "forum:post" post_id=post.id %}">
+        <a href="{% url "forum:detail" post_id=post.id %}">
             <p>Name: {{post.title}}</p>
         </a>
     </li>

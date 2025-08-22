@@ -1,0 +1,16 @@
+<li>
+    <p>{{ comment.author }}</p>
+    <p>{{ comment.content }}</p>
+    <form action="{% url "comments:reply" comment_id=comment.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" name=content>
+        <button>reply</button>
+    </form>
+    {% if comment.replies %}
+        <ul>
+            {% for reply in comment.replies.all  %}
+                {% include "comments/comment.html" with comment=reply%}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>

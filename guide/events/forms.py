@@ -1,7 +1,7 @@
 from django import forms
-from .models import EventPost
-
 from django.core.exceptions import ValidationError
+
+from .models import EventPost
 
 
 class EventForm(forms.ModelForm):

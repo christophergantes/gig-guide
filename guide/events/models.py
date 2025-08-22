@@ -1,5 +1,5 @@
-from django.db import models
 from core.models import Post
+from django.db import models
 
 
 class Venue(models.Model):

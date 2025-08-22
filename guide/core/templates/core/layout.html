@@ -25,6 +25,7 @@
         <ul>
             <li><a href="{% url "events:create" %}">Create Event</a></li>
             <li><a href="{% url "forum:create" %}">Create Forum Post</a></li>
+            <li><a href="{% url "users:profile" username=user.username%}">Profile</a></li>
             <li><form action="{% url "users:logout" %}" method="post">{% csrf_token %}<button>Logout</button></form></li>
         </ul>
         {% else %}

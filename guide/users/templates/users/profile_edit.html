@@ -1,0 +1,12 @@
+{% extends "core/layout.html" %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+<form action="{% url "users:edit-profile" %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form}}
+    <button>change profile</button>
+</form>
+{% endblock content %}
+
