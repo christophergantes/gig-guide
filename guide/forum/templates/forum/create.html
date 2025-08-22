@@ -1,0 +1,44 @@
+{% extends "core/layout.html" %}
+
+{% block title %}
+Create Event
+{% endblock title %}
+
+{% block content %}
+<h1>Create Event</h1>
+
+<form action="{% url "forum:create" %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button>Post</button>
+</form>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const venueWrap = document.getElementById("venue-block");
+    const customWrap = document.getElementById("custom-block");
+
+    const venueInput = document.getElementById("id_venue");
+    const customInput = document.getElementById("id_custom_location");
+
+    function applyLocationToggle() {
+      const selected = document.querySelector("input[name='location_option']:checked")?.value;
+      const useVenue = (selected === "venue");
+
+      venueWrap.hidden = !useVenue;
+      customWrap.hidden = useVenue;
+
+      if (venueInput) venueInput.disabled = !useVenue;
+      if (customInput) customInput.disabled = useVenue;
+    }
+
+    document.querySelectorAll("input[name='location_option']").forEach(r =>
+      r.addEventListener("change", applyLocationToggle)
+    );
+
+    applyLocationToggle();
+  });
+</script>
+
+{% endblock content %}

@@ -20,13 +20,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.index_view, name="home"),
+    path("", include("core.urls")),
     path("users/", include("users.urls")),
     path("events/", include("events.urls")),
+    path("forum/", include("forum.urls")),
 ]
 
 if settings.DEBUG:

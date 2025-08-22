@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "core/layout.html" %}
 
 {% block title %}Login{% endblock title %}
 
@@ -6,7 +6,10 @@
 <form action="{% url "users:login" %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <button>Login</button>
+    {% if request.GET.next %}
+        <input type="hidden" name="next" value="{{ request.GET.next}}"/>
+    {% endif %}
+  <button>Login</button>
 </form>
 {% endblock content %}
 

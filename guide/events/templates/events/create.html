@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "core/layout.html" %}
 
 {% block title %}
 Create Event
@@ -9,7 +9,97 @@ Create Event
 
 <form action="{% url "events:create" %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form }}
+
+    {% comment %} {{ form }} {% endcomment %}
+
+    {% for hidden in form.hidden_fields %}
+        {{ hidden.errors}}
+        {{ hidden }}
+    {% endfor %}
+
+
+    <div>
+        {{ form.title.label_tag}}
+        {{ form.title }}
+        {{ form.title.errors}}
+    </div>
+
+    <div>
+        {{ form.content.label_tag}}
+        {{ form.content }}
+        {{ form.content.errors}}
+    </div>
+
+    <div>
+        {{ form.image.label_tag}}
+        {{ form.image }}
+        {{ form.image.errors}}
+    </div>
+
+    <div>
+        {{ form.date.label_tag}}
+        {{ form.date }}
+        {{ form.date.errors}}
+    </div>
+
+    <div>
+        {{ form.start_time.label_tag}}
+        {{ form.start_time }}
+        {{ form.start_time.errors}}
+    </div>
+
+    <hr>
+
+    <div>
+        <input type="radio" name="location_option" id="venue_choice" value="venue" checked>
+        <label for="venue_choice">Venue</label>
+        <input type="radio" name="location_option" id="custom_choice" value="custom">
+        <label for="custom_choice">Custom</label>
+    </div>
+
+    <br>
+
+    <div id="venue-block">
+        {{ form.venue.label_tag}}
+        {{ form.venue }}
+        {{ form.venue.errors}}
+    </div>
+
+    <div id="custom-block">
+        {{ form.custom_location.label_tag}}
+        {{ form.custom_location }}
+        {{ form.custom_location.errors}}
+    </div>
+
     <button>Create</button>
 </form>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const venueWrap = document.getElementById("venue-block");
+    const customWrap = document.getElementById("custom-block");
+
+    const venueInput = document.getElementById("id_venue");
+    const customInput = document.getElementById("id_custom_location");
+
+    function applyLocationToggle() {
+      const selected = document.querySelector("input[name='location_option']:checked")?.value;
+      const useVenue = (selected === "venue");
+
+      venueWrap.hidden = !useVenue;
+      customWrap.hidden = useVenue;
+
+      if (venueInput) venueInput.disabled = !useVenue;
+      if (customInput) customInput.disabled = useVenue;
+    }
+
+    document.querySelectorAll("input[name='location_option']").forEach(r =>
+      r.addEventListener("change", applyLocationToggle)
+    );
+
+    applyLocationToggle();
+  });
+</script>
+
 {% endblock content %}

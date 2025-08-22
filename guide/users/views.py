@@ -8,7 +8,7 @@ def register_view(request):
         form = forms.UserCreationForm(request.POST)
         if form.is_valid():
             login(request, form.save())
-            return redirect("home")
+            return redirect("core:home")
     else:
         form = forms.UserCreationForm()
 
@@ -20,7 +20,9 @@ def login_view(request):
         form = forms.AuthenticationForm(data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect("home")
+            if "next" in request.POST:
+                return redirect(request.POST.get("next"))
+            return redirect("core:home")
 
     else:
         form = forms.AuthenticationForm()
@@ -31,5 +33,5 @@ def login_view(request):
 def logout_view(request):
     if request.method == "POST":
         logout(request)
-        return redirect("home")
-    return redirect("home")
+        return redirect("core:home")
+    return redirect("core:home")

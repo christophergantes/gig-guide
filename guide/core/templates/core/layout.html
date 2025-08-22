@@ -4,22 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static "css/styles.css" %}">
-    <title>Gig Guide | {% block title %}{% endblock title %} </title>
+    <link rel="stylesheet" href="{% static "core/css/styles.css" %}">
+    <title>Athens Gig Guide | {% block title %}{% endblock title %} </title>
+    {% block head %}{% endblock head %}
 </head>
 <body class="container">
     <nav>
         <ul>
             <li>
-                <a href="{% url "home" %}">
-                    <h1>Gig Guide</h1>
+                <a href="{% url "core:home" %}">
+                    <h1>Athens Gig Guide</h1>
                 </a>
             </li>
             <li><a href="{% url "events:list" %}">Events</a></li>
+            <li><a href="{% url "forum:list" %}">Forum</a></li>
+            
+
         </ul>
         {% if user.is_authenticated %}
         <ul>
             <li><a href="{% url "events:create" %}">Create Event</a></li>
+            <li><a href="{% url "forum:create" %}">Create Forum Post</a></li>
             <li><form action="{% url "users:logout" %}" method="post">{% csrf_token %}<button>Logout</button></form></li>
         </ul>
         {% else %}
