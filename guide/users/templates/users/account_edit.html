@@ -3,7 +3,7 @@
     Account Edit
 {% endblock title %}
 {% block content %}
-    <form action="{% url "users:account-edit" %}" method="post">
+    <form action="{% url "users:account_edit" %}" method="post">
         {% csrf_token %}
         {{ form }}
         <button>Submit</button>

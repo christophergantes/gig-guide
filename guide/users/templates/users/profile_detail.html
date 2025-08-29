@@ -8,8 +8,11 @@
     <p>{{ person.username }}</p>
     <p>{{ profile.bio }}</p>
     {% if user == person %}
-        <a href="{% url "users:edit-profile" %}">
+        <a href="{% url "users:profile_edit" %}">
             <button>Edit Profile</button>
+        </a>
+        <a href="{% url "users:settings" %}">
+            <button>Settings</button>
         </a>
     {% endif %}
 {% endblock content %}

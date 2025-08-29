@@ -1,9 +1,9 @@
-from django.contrib.auth import forms, login, logout
+from django.contrib.auth import forms, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import AccountEditForm, ProfileForm
+from .forms import NameForm, ProfileForm
 from .models import Profile
 
 
@@ -23,28 +23,6 @@ def register_view(request):
     return render(request, "users/register.html", {"form": form})
 
 
-def login_view(request):
-    if request.method == "POST":
-        form = forms.AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            login(request, form.get_user())
-            if "next" in request.POST:
-                return redirect(request.POST.get("next"))
-            return redirect("core:home")
-
-    else:
-        form = forms.AuthenticationForm()
-
-    return render(request, "users/login.html", {"form": form})
-
-
-def logout_view(request):
-    if request.method == "POST":
-        logout(request)
-        return redirect("core:home")
-    return redirect("core:home")
-
-
 def profile_view(request, username):
     user = get_object_or_404(User, username=username)
     profile = Profile.objects.get(user=user)
@@ -54,47 +32,33 @@ def profile_view(request, username):
 
 
 @login_required(login_url="users:login")
-def edit_profile_view(request):
-    profile = get_object_or_404(Profile, user=request.user)
+def profile_edit_view(request):
+    user = request.user
+    profile = user.profile
     if request.method == "POST":
-        form = ProfileForm(request.POST, request.FILES)
-        if form.is_valid():
-            profile.bio = form.cleaned_data.get("bio")
+        profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
+        name_form = NameForm(request.POST, instance=user)
+        if profile_form.is_valid() and name_form.is_valid():
+            profile.bio = profile_form.cleaned_data.get("bio")
             if request.POST.get("picture-clear") == "on":
                 profile.picture = "pfp/no_pfp.png"
             else:
-                profile.picture = form.cleaned_data.get("picture") or profile.picture
+                profile.picture = (
+                    profile_form.cleaned_data.get("picture") or profile.picture
+                )
             profile.save()
+            name_form.save()
             return redirect("users:profile", username=request.user.username)
     else:
-        form = ProfileForm(initial={"bio": profile.bio, "picture": profile.picture})
-    return render(request, "users/profile_edit.html", {"form": form})
+        profile_form = ProfileForm(instance=profile)
+        name_form = NameForm(instance=user)
+    return render(
+        request,
+        "users/profile_edit.html",
+        {"name_form": name_form, "profile_form": profile_form},
+    )
 
 
 @login_required(login_url="users:login")
-def account_view(request):
-    return render(request, "users/account_detail.html")
-
-
-@login_required(login_url="users:login")
-def password_change_view(request):
-    if request.method == "POST":
-        form = forms.PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("users:account")
-    else:
-        form = forms.PasswordChangeForm(request.user)
-    return render(request, "users/password_change.html", {"form": form})
-
-
-@login_required(login_url="users:login")
-def account_edit_view(request):
-    if request.method == "POST":
-        form = AccountEditForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect("users:account")
-
-    form = AccountEditForm(instance=request.user)
-    return render(request, "users/account_edit.html", {"form": form})
+def settings_view(request):
+    return render(request, "users/settings.html")

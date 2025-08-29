@@ -10,7 +10,7 @@ class ProfileForm(forms.ModelForm):
         fields = ("picture", "bio")
 
 
-class AccountEditForm(forms.ModelForm):
+class NameForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "email")
+        fields = ("first_name", "last_name")

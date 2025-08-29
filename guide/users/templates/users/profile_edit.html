@@ -3,11 +3,12 @@
     Edit Profile
 {% endblock title %}
 {% block content %}
-    <form action="{% url "users:edit-profile" %}"
+    <form action="{% url "users:profile_edit" %}"
           method="post"
           enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form }}
+        {{ name_form }}
+        {{ profile_form }}
         <button>change profile</button>
     </form>
 {% endblock content %}
