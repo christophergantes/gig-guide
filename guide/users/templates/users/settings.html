@@ -11,11 +11,11 @@
     </div>
     {% if user.is_authenticated %}
         <ul>
+            {% comment %} <li>
+                <a href="{% url "users:account_edit" %}">account edit</a>
+            </li> {% endcomment %}
             <li>
-                <a href="{% url "users:account-edit" %}">account edit</a>
-            </li>
-            <li>
-                <a href="{% url "users:password-change" %}">password change</a>
+                <a href="{% url "users:password_change" %}">password change</a>
             </li>
         </ul>
     {% endif %}

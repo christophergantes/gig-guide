@@ -9,5 +9,5 @@
         {% if request.GET.next %}<input type="hidden" name="next" value="{{ request.GET.next }}" />{% endif %}
         <button>Login</button>
     </form>
-    <a href="{% url "users:password-reset" %}">forget your password?</a>
+    <a href="{% url "users:password_reset" %}">forget your password?</a>
 {% endblock content %}

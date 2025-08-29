@@ -1,50 +1,51 @@
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import path, reverse_lazy
 
 from . import views
 
 app_name = "users"
 
 urlpatterns = [
-    path("account/register/", views.register_view, name="register"),
-    path("account/login/", views.login_view, name="login"),
-    path("account/logout/", views.logout_view, name="logout"),
-    path("account/", views.account_view, name="account"),
-    path("account/edit", views.account_edit_view, name="account-edit"),
+    path("login/", auth_views.LoginView.as_view(), name="login"),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path(
-        "account/password-change/", views.password_change_view, name="password-change"
+        "password_change/",
+        auth_views.PasswordChangeView.as_view(
+            success_url=reverse_lazy("users:password_change_done")
+        ),
+        name="password_change",
     ),
     path(
-        "account/password-reset/",
+        "password_change/done/",
+        auth_views.PasswordChangeDoneView.as_view(),
+        name="password_change_done",
+    ),
+    path(
+        "password_reset/",
         auth_views.PasswordResetView.as_view(
-            template_name="users/password_reset.html",
-            email_template_name="users/password_reset_email.html",
-            success_url="/users/account/password-reset-done",
+            success_url=reverse_lazy("users:password_reset_done")
         ),
-        name="password-reset",
+        name="password_reset",
     ),
     path(
-        "account/password-reset-done/",
-        auth_views.PasswordResetDoneView.as_view(
-            template_name="users/password_reset_done.html"
-        ),
-        name="password-reset-done",
+        "password_reset/done/",
+        auth_views.PasswordResetDoneView.as_view(),
+        name="password_reset_done",
     ),
     path(
-        "account/reset/<uidb64>/<token>/",
+        "reset/<uidb64>/<token>/",
         auth_views.PasswordResetConfirmView.as_view(
-            template_name="users/password_reset_confirm.html",
-            success_url="/users/account/reset/done",
+            success_url=reverse_lazy("users:password_reset_complete")
         ),
-        name="password-reset-confirm",
+        name="password_reset_confirm",
     ),
     path(
-        "account/reset/done/",
-        auth_views.PasswordResetCompleteView.as_view(
-            template_name="users/password_reset_complete.html"
-        ),
-        name="password-reset-complete",
+        "reset/done/",
+        auth_views.PasswordResetCompleteView.as_view(),
+        name="password_reset_complete",
     ),
-    path("profile/edit/", views.edit_profile_view, name="edit-profile"),
+    path("register/", views.register_view, name="register"),
+    path("settings/", views.settings_view, name="settings"),
+    path("edit/", views.profile_edit_view, name="profile_edit"),
     path("<str:username>/", views.profile_view, name="profile"),
 ]

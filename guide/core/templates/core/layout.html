@@ -38,9 +38,9 @@
                     <li>
                         <a href="{% url "users:profile" username=user.username %}">Profile</a>
                     </li>
-                    <li>
-                        <a href="{% url "users:account" %}">Account</a>
-                    </li>
+                    {% comment %} <li>
+                        <a href="{% url "users:settings" %}">Account</a>
+                    </li> {% endcomment %}
                     <li>
                         <form action="{% url "users:logout" %}" method="post">
                             {% csrf_token %}

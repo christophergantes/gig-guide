@@ -10,7 +10,8 @@
     <p>{{ forum_post.content }}</p>
     <h2>Comments</h2>
     {% if user.is_authenticated %}
-        <form action="{% url "comments:post" post_id=forum_post.id %}" method="post">
+        <form action="{% url "comments:post" post_id=forum_post.id %}"
+              method="post">
             {% csrf_token %}
             <label for="">Leave a comment</label>
             <input type="text" name="content">
