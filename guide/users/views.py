@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import ProfileForm
+from .forms import AccountEditForm, ProfileForm
 from .models import Profile
 
 
@@ -11,9 +11,10 @@ def register_view(request):
     if request.method == "POST":
         form = forms.UserCreationForm(request.POST)
         if form.is_valid():
-            login(request, form.save())
+            user = form.save()
+            login(request, user)
             profile = Profile()
-            profile.user = request.user
+            profile.user = user
             profile.save()
             return redirect("core:home")
     else:
@@ -68,3 +69,32 @@ def edit_profile_view(request):
     else:
         form = ProfileForm(initial={"bio": profile.bio, "picture": profile.picture})
     return render(request, "users/profile_edit.html", {"form": form})
+
+
+@login_required(login_url="users:login")
+def account_view(request):
+    return render(request, "users/account_detail.html")
+
+
+@login_required(login_url="users:login")
+def password_change_view(request):
+    if request.method == "POST":
+        form = forms.PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("users:account")
+    else:
+        form = forms.PasswordChangeForm(request.user)
+    return render(request, "users/password_change.html", {"form": form})
+
+
+@login_required(login_url="users:login")
+def account_edit_view(request):
+    if request.method == "POST":
+        form = AccountEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("users:account")
+
+    form = AccountEditForm(instance=request.user)
+    return render(request, "users/account_edit.html", {"form": form})

@@ -19,7 +19,9 @@ def create_view(request):
             event.author = request.user
             event.save()
             return redirect("events:detail", post_id=event.id)
-    return render(request, "events/create.html")
+    else:
+        form = EventForm()
+    return render(request, "events/create.html", {"form": form})
 
 
 def event_post_view(request, post_id):

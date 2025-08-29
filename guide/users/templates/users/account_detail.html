@@ -1,0 +1,22 @@
+{% extends "core/layout.html" %}
+{% block title %}
+    Account
+{% endblock title %}
+{% block content %}
+    <div>
+        <img src="{{ user.profile.picture.url }}" alt="Profile picture">
+        <p>Username: {{ user.username }}</p>
+        <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+        <p>Email: {{ user.email }}</p>
+    </div>
+    {% if user.is_authenticated %}
+        <ul>
+            <li>
+                <a href="{% url "users:account-edit" %}">account edit</a>
+            </li>
+            <li>
+                <a href="{% url "users:password-change" %}">password change</a>
+            </li>
+        </ul>
+    {% endif %}
+{% endblock content %}

@@ -1,20 +1,16 @@
 {% extends "core/layout.html" %}
-
 {% block title %}
-Forum
+    Forum
 {% endblock title %}
-
 {% block content %}
-<h1>Forum</h1>
-
-<ul>
-    {% for post in forum_posts %}
-    <li>
-        <a href="{% url "forum:detail" post_id=post.id %}">
-            <p>Name: {{post.title}}</p>
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-
+    <h1>Forum</h1>
+    <ul>
+        {% for post in forum_posts %}
+            <li>
+                <a href="{% url "forum:detail" post_id=post.id %}">
+                    <p>Name: {{ post.title }}</p>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock content %}

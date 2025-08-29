@@ -26,4 +26,5 @@ def forum_create_view(request):
 
 def forum_post_view(request, post_id):
     forum_post = ForumPost.objects.get(pk=post_id)
-    return render(request, "forum/detail.html", {"forum_post": forum_post})
+    comments = forum_post.comments.filter(parent__isnull=True)
+    return render(request, "forum/detail.html", {"forum_post": forum_post, "comments":comments})

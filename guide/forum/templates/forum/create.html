@@ -1,20 +1,17 @@
 {% extends "core/layout.html" %}
-
 {% block title %}
-Create Event
+    Create Event
 {% endblock title %}
-
 {% block content %}
-<h1>Create Event</h1>
-
-<form action="{% url "forum:create" %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form }}
-    <button>Post</button>
-</form>
-
-
-<script>
+    <h1>Create Event</h1>
+    <form action="{% url "forum:create" %}"
+          method="post"
+          enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button>Post</button>
+    </form>
+    <script>
   document.addEventListener("DOMContentLoaded", function () {
     const venueWrap = document.getElementById("venue-block");
     const customWrap = document.getElementById("custom-block");
@@ -39,6 +36,5 @@ Create Event
 
     applyLocationToggle();
   });
-</script>
-
+    </script>
 {% endblock content %}

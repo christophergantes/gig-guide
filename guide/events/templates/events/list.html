@@ -1,22 +1,18 @@
 {% extends "core/layout.html" %}
-
 {% block title %}
-Events
+    Events
 {% endblock title %}
-
 {% block content %}
-<h1>Events</h1>
-
-<ul>
-    {% for event in events %}
-    <li>
-        <a href="{% url "events:detail" post_id=event.id %}">
-            <p>Name: {{event.title}}</p>
-            <p>Date: {{event.date}} @ {{event.start_time}}</p>
-            {% comment %} <p>{{event.description}}</p> {% endcomment %}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-
+    <h1>Events</h1>
+    <ul>
+        {% for event in events %}
+            <li>
+                <a href="{% url "events:detail" post_id=event.id %}">
+                    <p>Name: {{ event.title }}</p>
+                    <p>Date: {{ event.date }} @ {{ event.start_time }}</p>
+                    {% comment %} <p>{{event.description}}</p> {% endcomment %}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock content %}
