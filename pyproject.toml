@@ -1,10 +1,23 @@
 [project]
-name = "gig-guide"
+name = "athens-gig-guide"
 version = "0.1.0"
-description = "Add your description here"
+description = "a website to find local events in athens"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "django>=5.2.4",
     "pillow>=11.3.0",
+    "python-dotenv>=1.1.1",
 ]
+
+[dependency-groups]
+dev = [
+    "djlint>=1.36.4",
+    "pytest>=8.4.2",
+    "pytest-cov>=6.3.0",
+    "pytest-django>=4.11.1",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "guide.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
